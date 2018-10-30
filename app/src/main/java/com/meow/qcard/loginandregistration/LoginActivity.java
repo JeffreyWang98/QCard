@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.meow.qcard.MainActivity;
 import com.meow.qcard.R;
 
@@ -27,30 +26,17 @@ public class LoginActivity extends RegistrationActivityTemplate {
     // UI references.
     private EditText mPasswordView;
 
-    private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Get FireBase auth instance
-        mAuth = FirebaseAuth.getInstance();
+        initialize(R.id.login_form, R.id.login_progress);
 
         // Skips login if user already signed in
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }
-
-        // Set up the login form.
-        mEmailView = findViewById(R.id.email);
-        populateAutoComplete();
-
-        // Set mEmailView text if already available
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            mEmailView.setText(bundle.getString("email", ""));
         }
 
         mPasswordView = findViewById(R.id.password);
@@ -97,9 +83,6 @@ public class LoginActivity extends RegistrationActivityTemplate {
                 finish();
             }
         });
-
-        initProgressView(findViewById(R.id.login_form));
-        initFormView(findViewById(R.id.login_progress));
     }
 
     /**

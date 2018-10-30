@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.meow.qcard.MainActivity;
 import com.meow.qcard.R;
@@ -31,27 +30,15 @@ public class SignUpActivity extends RegistrationActivityTemplate {
     private EditText mDisplayNameView;
     private EditText mPasswordView;
 
-    private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Get FireBase auth instance
-        mAuth = FirebaseAuth.getInstance();
+        initialize(R.id.sign_up_form, R.id.sign_up_progress);
 
         // Set up the login form.
         mDisplayNameView = findViewById(R.id.display_name);
-
-        mEmailView = findViewById(R.id.email);
-        populateAutoComplete();
-
-        // Set mEmailView text if already available
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            mEmailView.setText(bundle.getString("email", ""));
-        }
 
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -97,9 +84,6 @@ public class SignUpActivity extends RegistrationActivityTemplate {
                 finish();
             }
         });
-
-        initProgressView(findViewById(R.id.sign_up_form));
-        initFormView(findViewById(R.id.sign_up_progress));
     }
 
     /**

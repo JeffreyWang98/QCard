@@ -8,29 +8,16 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.meow.qcard.R;
 
 public class ResetPasswordActivity extends RegistrationActivityTemplate {
-
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        // Get FireBase auth instance
-        mAuth = FirebaseAuth.getInstance();
-
-        mEmailView = findViewById(R.id.email);
-        populateAutoComplete();
-
-        // Set mEmailView text if already available
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            mEmailView.setText(bundle.getString("email", ""));
-        }
+        initialize(R.id.reset_password_form, R.id.reset_password_progress);
 
         Button resetButton = findViewById(R.id.btn_reset_password);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +73,5 @@ public class ResetPasswordActivity extends RegistrationActivityTemplate {
                 finish();
             }
         });
-
-        initProgressView(findViewById(R.id.reset_password_progress));
-        initFormView(findViewById(R.id.reset_password_form));
     }
 }
